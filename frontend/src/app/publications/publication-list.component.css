@@ -1,0 +1,42 @@
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #1b4b8c;
+  color: #ffffff;
+  border-radius: 0.25rem;
+  text-decoration: none;
+}
+
+.button:hover {
+  background-color: #163c70;
+}
+
+.error {
+  color: #c0392b;
+}
+
+.empty {
+  padding: 1rem;
+  border: 1px dashed #b4b4b4;
+  border-radius: 0.5rem;
+  background-color: #ffffff;
+}
+
+button {
+  padding: 0.35rem 0.75rem;
+  border: none;
+  border-radius: 0.25rem;
+  background-color: #d90429;
+  color: #ffffff;
+}
+
+button:hover {
+  background-color: #a30320;
+}
