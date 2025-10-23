@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.2//EN"
+        "http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd">
+
+<validators>
+    <field name="room.building">
+        <field-validator type="requiredstring">
+            <message key="error.fieldRequired" />
+        </field-validator>
+        <field-validator type="stringlength">
+            <param name="maxLength">1</param>
+            <message key="error.stringLength"/>
+        </field-validator>
+    </field>
+    <field name="room.roomNumber">
+        <field-validator type="required">
+            <message key="error.fieldRequired"/>
+        </field-validator>
+        <field-validator type="int">
+            <param name="min">1</param>
+            <param name="max">999</param>
+            <message key="error.intRange"/>
+        </field-validator>
+    </field>
+    <field name="room.seats">
+        <field-validator type="required">
+            <message key="error.fieldRequired"/>
+        </field-validator>
+        <field-validator type="int">
+            <param name="min">1</param>
+            <param name="max">9999</param>
+            <message key="error.intRange"/>
+        </field-validator>
+    </field>
+</validators>
