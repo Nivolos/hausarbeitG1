@@ -5,4 +5,15 @@ Status: PR1 legt nur das Skelett an. Keine Code-Artefakte, keine POMs.
 Zielstände (später): Java ≥ 18 (empf. 21 LTS), Spring Boot 3.3.x, Hibernate 6.x.
 
 Initiales Spring Boot 3.3.x WAR Skeleton mit GET /api/publications.
-Build: mvn -pl backend package
+Build: mvn -f backend/pom.xml package
+
+## Aktueller Stand (PR4)
+- Domänenmodelle: Publication, Borrower, Loan (JPA/Hibernate).
+- Publication-REST: GET/POST/DELETE unter `/api/publications` mit DTO-Mapping.
+- Seed-Daten: `src/main/resources/data.sql` (H2 In-Memory) für Schnelltests.
+
+### Quick Checks
+```bash
+mvn -f backend/pom.xml package -DskipTests
+curl -s http://localhost:8080/api/publications | jq
+```
