@@ -1,6 +1,3 @@
-# Frontend (Angular) — Skeleton
-Dieses Verzeichnis enthält die künftige Angular-App (ohne UI-Libs).
-Status: PR1 legt nur das Skelett an. Keine App erzeugt.
-
-Zielstände (später): Angular 18, Node 20. Proxy auf /api.
-
+# Angular 18 Skeleton (Offline)
+Ziel: Ordnerstruktur, Proxy und Stubs ohne Abhängigkeiten.
+Schritte (Online später): npm ci, Angular CLI installieren, echtes Projekt erzeugen.
