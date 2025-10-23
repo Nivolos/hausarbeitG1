@@ -10,6 +10,14 @@
 
 > Der Agent richtet **alle Architektur-, Code- und Doku-Entscheidungen** an diesen Dateien aus.
 
+### Referenzbeispiele (nur Stil-/Pattern-Quellen)
+- Die Beispiele liegen unter `/docs/references/*` und dienen als **Lesereferenz** für Angular-, Spring- und ORM-Patterns.
+- **Nicht** in produktive Module kopieren/verschieben; Patterns adaptieren und neu implementieren.
+- Build/CI dürfen die Referenzen **nicht** bauen oder paketieren. Root-Builds auf `/backend` und `/frontend` beschränken.
+- In PR-Beschreibungen referenzierte Patterns bitte mit Pfad angeben (z. B. „siehe /docs/references/spring-hibernate-orm-examples“).
+
+> Hinweis: Technische Stil- und Pattern-Referenzen liegen unter `/docs/references/*` (keine produktiven Artefakte).
+
 ---
 
 ## 1) Architektur-Entscheidungen (Soll)
