@@ -34,3 +34,5 @@ replay_pid*
 /docs/references/**/dist/
 /docs/references/**/.idea/
 /docs/references/**/.angular/
+/frontend/node_modules/
+/frontend/dist/
