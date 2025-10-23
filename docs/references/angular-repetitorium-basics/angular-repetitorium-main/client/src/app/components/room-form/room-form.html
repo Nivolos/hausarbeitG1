@@ -1,0 +1,22 @@
+<h2>Edit Room</h2>
+
+<form (ngSubmit)="onSubmit()" #roomForm="ngForm">
+  <p>
+    <label for="building">Building*:</label>
+    <input id="building" name="building" required [(ngModel)]="room.building" [readOnly]="room.id !== undefined">
+  </p>
+  <p>
+    <label for="roomNumber">Room Number*:</label>
+    <input id="roomNumber" name="roomNumber" required [(ngModel)]="room.roomNumber" [readOnly]="room.id !== undefined"/>
+  </p>
+  <p>
+    <label for="seats">Number of seats:</label>
+    <input id="seats" name="seats" type="number" min="1" max="999" required [(ngModel)]="room.seats"/>
+  </p>
+  <p>
+    <label for="projectorPresent">Projector present?:</label>
+    <input type="checkbox" id="projectorPresent" name="projectorPresent" [(ngModel)]="room.projectorPresent"/>
+  </p>
+  <button type="submit" [disabled]="roomForm.invalid">Save</button>
+  <button type="button" (click)="onCancel()">Cancel</button>
+</form>

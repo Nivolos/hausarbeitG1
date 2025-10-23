@@ -1,0 +1,14 @@
+<app-room-list
+  [rooms]="rooms"
+  (addRoom)="onAddRoom()"
+  (editRoom)="onEditRoom($event)"
+  (deleteRoom)="onDeleteRoom($event)"
+></app-room-list>
+
+@if (editableRoom) {
+  <app-room-form
+    [room]="editableRoom"
+    (saveRoom)="onSaveRoom($event)"
+    (cancel)="onCancelEdit()"
+  ></app-room-form>
+}
