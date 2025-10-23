@@ -29,3 +29,8 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+/docs/references/**/node_modules/
+/docs/references/**/target/
+/docs/references/**/dist/
+/docs/references/**/.idea/
+/docs/references/**/.angular/
