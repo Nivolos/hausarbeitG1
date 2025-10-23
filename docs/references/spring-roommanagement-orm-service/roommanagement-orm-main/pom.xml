@@ -1,0 +1,47 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>roommanagement.orm</artifactId>
+    <groupId>de.nordakademie.iaa</groupId>
+    <version>1.0.0-SNAPSHOT</version>
+    <description>Roommanagement - ORM</description>
+
+    <organization>
+        <name>Nordakademie gAG Elmshorn</name>
+        <url>http://www.nordakademie.de</url>
+    </organization>
+    <developers>
+        <developer>
+            <name>Stephan Anft</name>
+            <email>stephan.anft@nordakademie.de</email>
+        </developer>
+        <developer>
+            <name>Stefan Reichert</name>
+            <email>stefan.reichert@nordakademie.de</email>
+        </developer>
+    </developers>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>6.6.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>2.2.220</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.5.6</version>
+        </dependency>
+
+    </dependencies>
+
+</project>
