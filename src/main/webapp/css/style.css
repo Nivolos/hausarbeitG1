@@ -1,0 +1,39 @@
+@charset "utf-8";
+
+th a:hover {
+    color: #0062cc;
+}
+th.sorted a,th.sortable a {
+    background-position: right;
+    display: block;
+    width: 100%;
+    margin-right: 20px;
+}
+th.sortable a {
+    background-image: url(../img/sort-neutral.svg);
+    background-repeat: no-repeat;
+    background-size: 20px;
+    background-position: right bottom;
+    padding-bottom: 20px;
+}
+th.order1 a {
+    background-image: url(../img/sort-alpha-down.svg);
+    background-repeat: no-repeat;
+}
+th.order2 a {
+    background-image: url(../img/sort-alpha-up.svg);
+    background-repeat: no-repeat;
+}
+td.cell{
+    word-break: break-all;
+}
+th{
+    color: #007bff;
+}
+
+.full-width {
+    width: 100vw;
+    position: relative;
+    margin-left: -50vw;
+    left: 50%;
+}

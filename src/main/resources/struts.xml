@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+    <!-- Enable action error and message chaining -->
+    <constant name="struts.xwork.chaining.copyErrors" value="true"/>
+    <constant name="struts.xwork.chaining.copyMessages" value="true"/>
+
+    <package name="default" namespace="/" extends="tiles-default">
+        <interceptors>
+            <interceptor name="shiroUser" class="de.nordakademie.iaa.librarysystem.interceptor.ShiroUserInterceptor"/>
+            <interceptor-stack name="shiro-default">
+                <interceptor-ref name="shiroUser"/>
+                <interceptor-ref name="params"/> <!-- Run the params interceptor before the default stack. This allows us to access param values in our prepare() methods. -->
+                <interceptor-ref name="defaultStack"/>
+            </interceptor-stack>
+        </interceptors>
+        <default-interceptor-ref name="shiro-default"/>
+
+        <default-action-ref name="login"></default-action-ref>
+
+        <action name="login">
+            <result name="success" type="tiles">loginPage</result>
+        </action>
+
+        <action name="authuser" class="de.nordakademie.iaa.librarysystem.action.LoginAction">
+            <result name="success" type="redirectAction">
+                <param name="actionName">lendingProcessList</param>
+                <param name="username">${username}</param>
+            </result>
+            <result name="input" type="tiles">loginPage</result>
+        </action>
+
+        <action name="logout" class="de.nordakademie.iaa.librarysystem.action.LogoutAction">
+            <result name="success" type="tiles">loginPage</result>
+        </action>
+
+        <action name="newUserFromLogin">
+            <result name="success" type="tiles">createNewUserInLogin</result>
+        </action>
+
+        <action name="createNewUserInLogin" class="de.nordakademie.iaa.librarysystem.action.LibraryUserAction"
+                method="saveFromLogin">
+            <result name="success" type="chain">loginPage</result>
+            <result name="input" type="tiles">createNewUserInLogin</result>
+        </action>
+
+        <!-- Search Action-->
+        <action name="showSearch" class="de.nordakademie.iaa.librarysystem.action.SearchPublicationAction"
+                method="show">
+            <result name="success" type="tiles">searchPublication</result>
+            <result name="input" type="tiles">searchPublication</result>
+            <result name="error" type="tiles">searchPublication</result>
+        </action>
+
+        <action name="showSearchResult" class="de.nordakademie.iaa.librarysystem.action.SearchPublicationAction"
+                method="showResultList">
+            <result name="success" type="tiles">searchPublication</result>
+            <result name="input" type="tiles">searchPublication</result>
+        </action>
+        <!-- Admin Actions -->
+        <!-- Publication CRUD -->
+        <action name="showPublicationDetail" class="de.nordakademie.iaa.librarysystem.action.DetailPublicationAction"
+                method="showDetails">
+            <result name="success" type="tiles">adminPublicationDetail</result>
+            <result name="input" type="tiles">adminPublicationDetail</result>
+            <result name="error" type="tiles">adminPublicationDetail</result>
+        </action>
+
+        <action name="newPublication" class="de.nordakademie.iaa.librarysystem.action.PublicationAction"
+                method="create">
+            <result name="success" type="tiles">adminPublicationForm</result>
+        </action>
+
+        <action name="savePublication" class="de.nordakademie.iaa.librarysystem.action.PublicationAction"
+                method="save">
+            <result name="success" type="chain">showSearch</result>
+            <result name="input" type="tiles">adminPublicationForm</result>
+        </action>
+        <action name="editPublication" class="de.nordakademie.iaa.librarysystem.action.PublicationAction"
+                method="edit">
+            <result name="success" type="tiles">adminPublicationForm</result>
+            <result name="input" type="chain">showSearch</result>
+            <result name="error" type="chain">showSearch</result>
+        </action>
+        <action name="deletePublication" class="de.nordakademie.iaa.librarysystem.action.PublicationAction"
+                method="delete">
+            <result name="success" type="chain">showSearch</result>
+            <result name="input" type="chain">showSearch</result>
+            <result name="error" type="chain">showSearch</result>
+        </action>
+
+        <!-- PublicationType CRUD -->
+        <action name="adminPublicationTypeList" class="de.nordakademie.iaa.librarysystem.action.PublicationTypeListAction">
+            <result name="success" type="tiles">adminPublicationTypeList</result>
+        </action>
+
+       <action name="newPublicationType">
+           <result name="success" type="tiles">adminPublicationTypeForm</result>
+       </action>
+
+       <action name="savePublicationType" class="de.nordakademie.iaa.librarysystem.action.PublicationTypeAction"
+               method="save">
+           <result name="success" type="chain">adminPublicationTypeList</result>
+           <result name="input" type="tiles">adminPublicationTypeForm</result>
+       </action>
+       <action name="editPublicationType" class="de.nordakademie.iaa.librarysystem.action.PublicationTypeAction"
+               method="edit">
+           <result name="success" type="tiles">adminPublicationTypeForm</result>
+           <result name="input" type="chain">adminPublicationTypeList</result>
+           <result name="error" type="chain">adminPublicationTypeList</result>
+       </action>
+       <action name="deletePublicationType" class="de.nordakademie.iaa.librarysystem.action.PublicationTypeAction"
+               method="delete">
+           <result name="success" type="chain">adminPublicationTypeList</result>
+           <result name="input" type="chain">adminPublicationTypeList</result>
+       </action>
+
+        <!-- Author CRUD -->
+        <action name="adminAuthorList" class="de.nordakademie.iaa.librarysystem.action.AuthorListAction">
+            <result name="success" type="tiles">adminAuthorList</result>
+        </action>
+
+        <action name="newAuthor">
+            <result name="success" type="tiles">authorForm</result>
+        </action>
+        <action name="saveAuthor" class="de.nordakademie.iaa.librarysystem.action.AuthorAction" method="save">
+            <result name="success" type="chain">adminAuthorList</result>
+            <result name="input" type="tiles">authorForm</result>
+        </action>
+        <action name="editAuthor" class="de.nordakademie.iaa.librarysystem.action.AuthorAction" method="edit">
+            <result name="success" type="tiles">authorForm</result>
+            <result name="input" type="chain">adminAuthorList</result>
+        </action>
+        <action name="deleteAuthor" class="de.nordakademie.iaa.librarysystem.action.AuthorAction" method="delete">
+            <result name="success" type="chain">adminAuthorList</result>
+            <result name="input" type="chain">adminAuthorList</result>
+        </action>
+
+        <!-- Keyword CRUD -->
+        <action name="adminKeywordList" class="de.nordakademie.iaa.librarysystem.action.KeywordListAction"
+                method="execute">
+            <result name="success" type="tiles">adminKeywordList</result>
+            <result name="input" type="tiles">adminKeywordList</result>
+        </action>
+
+        <action name="newKeyword">
+            <result name="success" type="tiles">adminKeywordForm</result>
+        </action>
+        <action name="saveKeyword" class="de.nordakademie.iaa.librarysystem.action.KeywordAction" method="save">
+            <result name="success" type="chain">adminKeywordList</result>
+            <result name="input" type="tiles">adminKeywordForm</result>
+        </action>
+        <action name="editKeyword" class="de.nordakademie.iaa.librarysystem.action.KeywordAction" method="edit">
+            <result name="success" type="tiles">adminKeywordForm</result>
+            <result name="input" type="chain">adminKeywordList</result>
+        </action>
+        <action name="deleteKeyword" class="de.nordakademie.iaa.librarysystem.action.KeywordAction" method="delete">
+            <result name="success" type="chain">adminKeywordList</result>
+            <result name="input" type="chain">adminKeywordList</result>
+        </action>
+
+        <!-- LibraryUser CRUD -->
+        <action name="libraryUserList" class="de.nordakademie.iaa.librarysystem.action.LibraryUserListAction">
+            <result name="success" type="tiles">libraryUserList</result>
+        </action>
+
+        <action name="newUser" class="de.nordakademie.iaa.librarysystem.action.LibraryUserAction">
+            <result name="success" type="tiles">libraryUserForm</result>
+            <result name="input" type="tiles">libraryUserForm</result>
+        </action>
+        <action name="saveLibraryUser" class="de.nordakademie.iaa.librarysystem.action.LibraryUserAction" method="save">
+            <result name="success" type="chain">libraryUserList</result>
+            <result name="input" type="tiles">libraryUserForm</result>
+        </action>
+        <action name="editUser" class="de.nordakademie.iaa.librarysystem.action.LibraryUserAction" method="edit">
+            <result name="success" type="tiles">libraryUserForm</result>
+            <result name="input" type="chain">libraryUserList</result>
+        </action>
+        <action name="deleteUser" class="de.nordakademie.iaa.librarysystem.action.LibraryUserAction" method="delete">
+            <result name="success" type="chain">libraryUserList</result>
+            <result name="input" type="chain">libraryUserList</result>
+        </action>
+
+        <!-- LendingProcess CRUD -->
+        <action name="lendingProcessList" class="de.nordakademie.iaa.librarysystem.action.LendingProcessListAction">
+            <result name="success" type="tiles">lendingProcessList</result>
+            <result name="input" type="tiles">lendingProcessList</result>
+        </action>
+
+        <action name="lendingProcessSearchResult"
+                class="de.nordakademie.iaa.librarysystem.action.LendingProcessListAction"
+                method="showResultList">
+            <result name="success" type="tiles">lendingProcessList</result>
+            <result name="input" type="tiles">lendingProcessList</result>
+        </action>
+
+        <action name="newLendingProcess"
+                class="de.nordakademie.iaa.librarysystem.action.PublicationLendAction"
+                method="loadLendingProcessCreateForm">
+            <result name="success" type="tiles">newLendingProcess</result>
+            <result name="input" type="tiles">newLendingProcess</result>
+            <result name="error" type="tiles">newLendingProcess</result>
+        </action>
+        <action name="newLendingProcessForSelectedPublicationId"
+                class="de.nordakademie.iaa.librarysystem.action.PublicationLendAction"
+                method="loadLendingProcessCreateFormForSelectedPublicationId">
+            <result name="success" type="tiles">newLendingProcessForPublication</result>
+            <result name="input" type="chain">newLendingProcess</result>
+            <result name="error" type="tiles">newLendingProcess</result>
+        </action>
+        <action name="lendPublications"
+                class="de.nordakademie.iaa.librarysystem.action.PublicationLendAction"
+                method="lendPublications">
+            <result name="input" type="chain">newLendingProcess</result>
+            <result name="success" type="chain">lendingProcessList</result>
+        </action>
+        <action name="returnPublications"
+                class="de.nordakademie.iaa.librarysystem.action.LendingProcessUpdateAction"
+                method="returnPublications">
+            <result name="input" type="chain">lendingProcessList</result>
+            <result name="success" type="chain">lendingProcessList</result>
+        </action>
+       <action name="remindPublications"
+        class="de.nordakademie.iaa.librarysystem.action.LendingProcessUpdateAction"
+        method="remindPublications">
+           <result name="input" type="chain">lendingProcessList</result>
+           <result name="success" type="chain">lendingProcessList</result>
+       </action>
+       <action
+       name="lostPublications" class="de.nordakademie.iaa.librarysystem.action.LendingProcessUpdateAction"
+       method="lostPublications">
+           <result name="input" type="chain">lendingProcessList</result>
+           <result name="success" type="chain">lendingProcessList</result>
+       </action>
+       <action name="extendPublications"
+       class="de.nordakademie.iaa.librarysystem.action.LendingProcessUpdateAction"
+       method="extendPublications">
+           <result name="input" type="chain">lendingProcessList</result>
+           <result name="success" type="chain">lendingProcessList</result>
+       </action>
+
+    </package>
+
+</struts>

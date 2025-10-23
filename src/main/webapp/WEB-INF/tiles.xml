@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+    <!-- Main template with holding structure for tiles menu bar and content -->
+    <definition name="mainTemplate" template="/template/mainTemplate.jsp">
+    </definition>
+    <definition name="loginTemplate" template="/template/mainTemplate.jsp">
+        <put-attribute name="header" value="/loginHeader.jsp"/>
+    </definition>
+
+    <definition name="loginPage" extends="loginTemplate">
+        <put-attribute name="content" value="/login.jsp"/>
+    </definition>
+    <!-- Form to create or edit a user from login -->
+    <definition name="createNewUserInLogin" extends="loginTemplate">
+        <put-attribute name="content" value="/loginExtension.jsp"/>
+    </definition>
+
+    <!-- Admin tiles -->
+    <!-- List users -->
+    <definition name="libraryUserList" extends="employeeTemplate">
+        <put-attribute name="content" value="/libraryUserList.jsp"/>
+    </definition>
+    <!-- Form to create or edit a user -->
+    <definition name="libraryUserForm" extends="employeeTemplate">
+        <put-attribute name="content" value="/libraryUserForm.jsp"/>
+    </definition>
+
+    <!-- Publication detail view-->
+    <definition name="adminPublicationDetail" extends="employeeTemplate">
+        <put-attribute name="content" value="/publicationDetail.jsp"/>
+    </definition>
+    <!-- List publications -->
+    <definition name="adminPublicationList" extends="employeeTemplate">
+        <put-attribute name="content" value="/searchPublication.jsp"/>
+    </definition>
+    <!-- Form to create or edit a publication -->
+    <definition name="adminPublicationForm" extends="employeeTemplate">
+        <put-attribute name="content" value="/publicationForm.jsp"/>
+    </definition>
+
+    <!-- List publication types -->
+    <definition name="adminPublicationTypeList" extends="employeeTemplate">
+        <put-attribute name="content" value="/publicationTypeList.jsp"/>
+    </definition>
+    <!-- Form to create or edit a publication type -->
+    <definition name="adminPublicationTypeForm" extends="employeeTemplate">
+        <put-attribute name="content" value="/publicationTypeForm.jsp"/>
+    </definition>
+
+    <!-- List keywords -->
+    <definition name="adminKeywordList" extends="employeeTemplate">
+        <put-attribute name="content" value="/keywordList.jsp"/>
+    </definition>
+    <!-- Form to create or edit a keyword -->
+    <definition name="adminKeywordForm" extends="employeeTemplate">
+        <put-attribute name="content" value="/keywordForm.jsp"/>
+    </definition>
+
+    <!-- Search publications -->
+    <definition name="searchPublication" extends="employeeTemplate">
+        <put-attribute name="content" value="/searchPublication.jsp" />
+    </definition>
+
+    <!-- Form to create or edit an author -->
+    <definition name="authorForm" extends="employeeTemplate">
+        <put-attribute name="content" value="/authorForm.jsp"/>
+    </definition>
+    <definition name="adminAuthorList" extends="employeeTemplate">
+        <put-attribute name="content" value="/authorList.jsp"/>
+    </definition>
+
+    <!-- Employee tiles -->
+    <!-- Employee template with specific employee menu -->
+    <definition name="employeeTemplate" template="/template/mainTemplate.jsp">
+        <put-attribute name="header" value="/employeeHeader.jsp"/>
+    </definition>
+    <!-- List lending processes -->
+    <definition name="lendingProcessList" extends="employeeTemplate">
+        <put-attribute name="content" value="/lendingProcessList.jsp"/>
+    </definition>
+    <!-- List searched lending processes -->
+    <definition name="searchLendingProcessList" extends="employeeTemplate">
+        <put-attribute name="content" value="/searchlibraryUserList.jsp"/>
+    </definition>
+    <!-- Form to create a new lending process with user and publication(-s) -->
+    <definition name="newLendingProcess" extends="employeeTemplate">
+        <put-attribute name="content" value="/lendingProcessCreateForm.jsp"/>
+    </definition>
+    <!-- Form to create a new lending process based on selection with user and publication(-s) -->
+    <definition name="newLendingProcessForPublication" extends="employeeTemplate">
+        <put-attribute name="content" value="/selectedLendingProcessCreateForm.jsp"/>
+    </definition>
+    <!-- Form to extend a lending process -->
+</tiles-definitions>

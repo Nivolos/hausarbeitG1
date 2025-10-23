@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	default-autowire="byName"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	 http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- =========================================================
+         Shiro Core Components - Not Spring Specific
+         ========================================================= -->
+    <!-- Shiro's main business-tier object for web-enabled applications
+         (use DefaultSecurityManager instead when there is no web environment)-->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="shiroRealm"/>
+        <property name="cacheManager" ref="shirocacheManager"/>
+    </bean>
+		 
+    <!-- Let's use some enterprise caching support for better performance.  You can replace this with any enterprise
+         caching framework implementation that you like (Terracotta+Ehcache, Coherence, GigaSpaces, etc -->
+    <bean id="shirocacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager"  scope="singleton">
+    </bean>
+    	
+	<!-- Used by the SecurityManager to access security data (users, roles, etc).
+          Many other realm implementations can be used too (PropertiesRealm,
+          LdapRealm, etc. 
+    -->
+    <bean id="shiroRealm" class="de.nordakademie.iaa.librarysystem.service.ShiroRealm">
+        <property name="libraryUserService" ref="shiroSecurityService" />
+        <property name="name" value="shiroRealm"/>
+    </bean>
+	              
+    <!-- =========================================================
+         Shiro Spring-specific integration
+         ========================================================= -->
+    
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+    
+    <!-- Define the Shiro Filter here (as a FactoryBean) instead of directly in web.xml -
+         web.xml uses the DelegatingFilterProxy to access this bean.  This allows us
+         to wire things with more control as well utilize nice Spring things such as
+         PropertiesPlaceholderConfigurer and abstract beans or anything else we might need: -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+
+</beans>

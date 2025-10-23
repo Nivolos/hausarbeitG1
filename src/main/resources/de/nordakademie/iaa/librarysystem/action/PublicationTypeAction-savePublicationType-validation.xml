@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.3//EN"
+        "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+
+<validators>
+    <field name="publicationType.publicationTypeNameDe">
+        <field-validator type="requiredstring">
+            <message key="error.fieldrequired"/>
+        </field-validator>
+    </field>
+
+    <field name="publicationType.publicationTypeNameEn">
+        <field-validator type="requiredstring">
+            <message key="error.fieldrequired"/>
+        </field-validator>
+    </field>
+
+    <field name="publicationType.publicationTypeNameDe">
+        <field-validator type="int">
+            <message key="error.studentnumber"/>
+        </field-validator>
+    </field>
+
+    <field name="publicationType.publicationTypeNameEn">
+        <field-validator type="stringlength">
+            <param name="maxLength">255</param>
+            <message key="error.maxLength"/>
+        </field-validator>
+    </field>
+</validators>

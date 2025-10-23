@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.3//EN"
+        "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+
+<validators>
+    <field name="libraryUser.userName">
+        <field-validator type="requiredstring">
+            <message key="error.fieldrequired"/>
+        </field-validator>
+    </field>
+
+    <field name="libraryUser.firstName">
+        <field-validator type="requiredstring">
+            <message key="error.fieldrequired"/>
+        </field-validator>
+    </field>
+
+    <field name="libraryUser.lastName">
+        <field-validator type="requiredstring">
+            <message key="error.fieldrequired"/>
+        </field-validator>
+    </field>
+    <field name="libraryUser.password">
+        <field-validator type="requiredstring">
+            <message key="error.fieldrequired"/>
+        </field-validator>
+    </field>
+
+    <field name="libraryUser.email">
+        <field-validator type="requiredstring">
+            <message key="error.fieldrequired"/>
+        </field-validator>
+        <field-validator type="email">
+            <message key="error.email"/>
+        </field-validator>
+    </field>
+    
+    <field name="libraryUser.studentNumber">
+       <field-validator type="int">
+            <message key="error.studentnumber"/>
+        </field-validator>
+    </field>
+
+    <field name="libraryUser.userName">
+        <field-validator type="stringlength">
+            <param name="maxLength">255</param>
+            <message key="error.maxLength"/>
+        </field-validator>
+    </field>
+
+    <field name="libraryUser.firstName">
+        <field-validator type="stringlength">
+            <param name="maxLength">255</param>
+            <message key="error.maxLength"/>
+        </field-validator>
+    </field>
+    <field name="libraryUser.password">
+        <field-validator type="stringlength">
+            <param name="maxLength">255</param>
+            <message key="error.maxLength"/>
+        </field-validator>
+    </field>
+
+    <field name="libraryUser.lastName">
+        <field-validator type="stringlength">
+            <param name="maxLength">255</param>
+            <message key="error.maxLength"/>
+        </field-validator>
+    </field>
+
+    <field name="libraryUser.email">
+        <field-validator type="stringlength">
+            <param name="maxLength">50</param>
+            <message key="error.maxLength"/>
+        </field-validator>
+    </field>
+
+    <field name="libraryUser.studentNumber">
+        <field-validator type="stringlength">
+            <param name="maxLength">10</param>
+            <message key="error.maxLength"/>
+        </field-validator>
+    </field>
+
+</validators>
+
