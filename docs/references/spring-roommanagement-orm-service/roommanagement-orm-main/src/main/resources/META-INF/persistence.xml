@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
+    <persistence-unit name="NAK_DB" transaction-type="RESOURCE_LOCAL">
+        <!-- Use Hibernate as JPA provider -->
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <!-- List of entities -->
+        <class>de.nordakademie.iaa.roommanagement.model.Room</class>
+        <!-- Properties for the persistence unit -->
+        <properties>
+            <property name="hibernate.connection.url" value="jdbc:h2:~/temp/db/roommgmt"/>
+            <property name="hibernate.connection.driver_class" value="org.h2.Driver"/>
+            <property name="hibernate.connection.username" value="sa"/>
+            <property name="hibernate.connection.password" value=""/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+            <property name="hibernate.current_session_context_class" value="thread"/>
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
+            <property name="hibernate.show_sql" value="false"/>
+            <property name="hibernate.format_sql" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>

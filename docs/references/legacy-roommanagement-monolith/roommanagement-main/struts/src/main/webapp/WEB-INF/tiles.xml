@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+    <!-- Main template -->
+    <definition name="mainTemplate" template="/template.jsp">
+        <put-attribute name="header" value="/header.jsp"/>
+    </definition>
+
+    <!-- Room table -->
+    <definition name="roomList" extends="mainTemplate">
+        <put-attribute name="content" value="/roomlist.jsp"/>
+    </definition>
+
+    <!-- Room form -->
+    <definition name="roomForm" extends="mainTemplate">
+        <put-attribute name="content" value="/roomform.jsp"/>
+    </definition>
+</tiles-definitions>

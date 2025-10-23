@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+    <package name="default" extends="tiles-default">
+        <!-- Shows the room list -->
+        <action name="showRoomList" class="de.nordakademie.iaa.roommanagement.action.ShowRoomListAction">
+            <result type="tiles">roomList</result>
+        </action>
+
+        <!-- Shows a blank room form -->
+        <action name="addRoom">
+            <result type="tiles">roomForm</result>
+        </action>
+
+        <!-- Deletes the selected room -->
+        <action name="deleteRoom" class="de.nordakademie.iaa.roommgmt.action.RoomAction" method="delete">
+            <result type="redirectAction">showRoomList</result>
+            <result name="input" type="chain">showRoomList</result>
+        </action>
+
+        <!-- Loads and displays the selected room -->
+        <action name="loadRoom" class="de.nordakademie.iaa.roommgmt.action.RoomAction" method="load">
+            <result type="tiles">roomForm</result>
+            <result name="input" type="chain">showRoomList</result>
+        </action>
+
+        <!-- Saves the current room and displays the table again -->
+        <action name="saveRoom" class="de.nordakademie.iaa.roommgmt.action.RoomAction" method="save">
+            <result type="redirectAction">showRoomList</result>
+            <result name="input" type="tiles">roomForm</result>
+        </action>
+
+    </package>
+</struts>

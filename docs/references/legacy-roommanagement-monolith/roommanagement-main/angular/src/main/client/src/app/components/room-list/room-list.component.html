@@ -1,0 +1,16 @@
+<table class="room-table">
+  <tr>
+    <th>Building</th>
+    <th>Room Number</th>
+    <th>Seats</th>
+    <th>Projector present?</th>
+    <th></th>
+  </tr>
+  <tr *ngFor="let room of rooms" (dblclick)="selectRoom(room)">
+    <td>{{ room.building }}</td>
+    <td>{{ room.roomNumber }}</td>
+    <td>{{ room.seats }}</td>
+    <td>{{ room.presenterAvailable }}</td>
+    <td><button (click)="selectRoom(room)">Show</button></td>
+  </tr>
+</table>
