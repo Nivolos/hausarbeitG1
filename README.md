@@ -1,3 +1,3 @@
 # Bibliotheksmanagementsystem
 
-Gruppe 2 - Die Pinguine
+Gruppe 1
