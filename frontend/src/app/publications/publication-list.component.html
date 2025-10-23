@@ -1,0 +1,44 @@
+<section>
+  <div class="section-header">
+    <h1>Publikationen</h1>
+    <a class="button" routerLink="/publications/new">Neue Publikation</a>
+  </div>
+
+  <p *ngIf="loading">Laden…</p>
+  <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+
+  <table *ngIf="!loading && publications.length" class="table">
+    <thead>
+      <tr>
+        <th>Titel</th>
+        <th>Autor:innen</th>
+        <th>Verlag</th>
+        <th>Bestand</th>
+        <th>Ausleihen</th>
+        <th>Aktionen</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let publication of publications">
+        <td>{{ publication.title }}</td>
+        <td>{{ publication.authors || '—' }}</td>
+        <td>{{ publication.publisher || '—' }}</td>
+        <td>{{ publication.stock }}</td>
+        <td>{{ publication.loanCount ?? 0 }}</td>
+        <td>
+          <button
+            type="button"
+            [disabled]="(publication.loanCount ?? 0) > 0"
+            [title]="(publication.loanCount ?? 0) > 0 ? 'Ausleihen vorhanden – bitte erst zurückgeben.' : 'Publikation löschen'"
+            (click)="delete(publication.id)">
+            Löschen
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!loading && !publications.length" class="empty">
+    Noch keine Publikationen vorhanden.
+  </div>
+</section>
