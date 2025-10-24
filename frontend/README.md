@@ -11,7 +11,7 @@ Das Angular-Frontend (Standalone, Angular 18) konsumiert das Spring-Boot-Backend
 ## Voraussetzungen
 - Node.js 20+
 - npm 10+
-- Angular CLI optional (`npm install -g @angular/cli`), lokale `node_modules` werden via `npm install` erzeugt.
+- Angular CLI optional (`npm install -g @angular/cli`), lokale `node_modules` werden via `npm ci` erzeugt.
 
 ## Lokale Entwicklung
 ```bash

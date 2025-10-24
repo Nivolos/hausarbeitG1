@@ -1,17 +1,18 @@
 # INSTALL (Skeleton)
 
 ## Ziele
-- Legacy-Struts weiterhin build- und lauffähig.
-- Schrittweise Migration zu Angular + Spring Boot (WAR) + Hibernate.
+- Modernisierte Module (Spring Boot + Angular) build- und lauffähig halten.
+- Legacy-Struts bleibt als Referenz unter `legacy/struts-app`, wird aber nicht mehr automatisch gebaut.
 
 ## Voraussetzungen (Dev)
 - Java 21 (oder ≥ 18), Maven, Node 20 (später Angular CLI).
 - Externer Tomcat 10.1+ (für spätere Boot-WAR-Deploys).
 
-## Schnelltest Legacy
+## Schnelltest Backend
 ```
 mvn -q validate
 ```
+- Führt den Aggregator-Build aus und validiert das Spring-Boot-Modul.
 
 ## Lokale Entwicklung (moderne Module)
 ### Backend (Spring Boot WAR)
@@ -24,17 +25,24 @@ mvn -f backend/pom.xml spring-boot:run
 ### Frontend (Angular 18)
 ```
 cd frontend
+npm ci
 npm install
 npm start
 ```
 - Dev-Server auf http://localhost:4200, Proxy routet `/api` → `http://localhost:8080`.
 - Falls der Backend-Port wechselt, `proxy.conf.json` anpassen.
 
+### Optional: Legacy-Referenz bauen
+```
+mvn -f legacy/struts-app/pom.xml -q validate
+```
+- Nur nötig, wenn die historische Anwendung nachvollzogen werden soll.
+
 ## Troubleshooting
 | Problem | Ursache | Lösung |
 | --- | --- | --- |
 | Maven 403 (Central) | CI/Netzwerk blockiert Downloads | Lokales Maven-Repo vorab befüllen oder `mvn -o` (offline) nutzen. |
-| `npm install` Fehler | Proxy/Registry gesperrt | Fallback: `npm install --cache .npm-cache` oder Offline-Paket bereitstellen. |
+| `npm ci` Fehler | Proxy/Registry gesperrt | Fallback: `npm ci --prefer-offline` oder temporär `npm install` mit lokalem Cache. |
 | Angular-Proxy greift nicht | Backend läuft auf anderem Host/Port | `proxy.conf.json` aktualisieren oder `npm start -- --proxy-config` nutzen. |
 | CORS-Fehler ohne Proxy | Frontend ruft Backend direkt auf | Proxy verwenden oder Backend um CORS-Konfiguration erweitern (nur dev). |
 
