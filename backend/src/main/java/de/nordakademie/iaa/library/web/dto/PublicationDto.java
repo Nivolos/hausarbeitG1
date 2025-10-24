@@ -2,6 +2,8 @@ package de.nordakademie.iaa.library.web.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PublicationDto {
 
@@ -20,17 +22,30 @@ public class PublicationDto {
     @Min(0)
     private long activeLoanCount;
 
+    private List<LoanDto> activeLoans = new ArrayList<>();
+
     public PublicationDto() {
         // Jackson
     }
 
-    public PublicationDto(Long id, String title, String authors, String publisher, int stock, long activeLoanCount) {
+    public PublicationDto(
+            Long id,
+            String title,
+            String authors,
+            String publisher,
+            int stock,
+            long activeLoanCount,
+            List<LoanDto> activeLoans
+    ) {
         this.id = id;
         this.title = title;
         this.authors = authors;
         this.publisher = publisher;
         this.stock = stock;
         this.activeLoanCount = activeLoanCount;
+        if (activeLoans != null) {
+            this.activeLoans = new ArrayList<>(activeLoans);
+        }
     }
 
     public Long getId() {
@@ -79,5 +94,13 @@ public class PublicationDto {
 
     public void setActiveLoanCount(long activeLoanCount) {
         this.activeLoanCount = activeLoanCount;
+    }
+
+    public List<LoanDto> getActiveLoans() {
+        return activeLoans;
+    }
+
+    public void setActiveLoans(List<LoanDto> activeLoans) {
+        this.activeLoans = activeLoans == null ? new ArrayList<>() : new ArrayList<>(activeLoans);
     }
 }

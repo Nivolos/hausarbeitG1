@@ -1,5 +1,6 @@
 package de.nordakademie.iaa.library.web;
 
+import de.nordakademie.iaa.library.domain.Loan;
 import de.nordakademie.iaa.library.domain.Publication;
 import de.nordakademie.iaa.library.service.PublicationService;
 import de.nordakademie.iaa.library.web.dto.PublicationDto;
@@ -7,6 +8,7 @@ import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,15 +32,16 @@ public class PublicationController {
     @GetMapping
     public List<PublicationDto> getAll() {
         List<Publication> publications = publicationService.findAll();
-        Map<Long, Long> loanCounts = publicationService.countActiveLoans(
-                publications.stream()
-                        .map(Publication::getId)
-                        .collect(Collectors.toSet())
-        );
+        Set<Long> publicationIds = publications.stream()
+                .map(Publication::getId)
+                .collect(Collectors.toSet());
+        Map<Long, Long> loanCounts = publicationService.countActiveLoans(publicationIds);
+        Map<Long, List<Loan>> activeLoans = publicationService.findActiveLoans(publicationIds);
         return publications.stream()
                 .map(publication -> PublicationMapper.toDto(
                         publication,
-                        loanCounts.getOrDefault(publication.getId(), 0L)
+                        loanCounts.getOrDefault(publication.getId(), 0L),
+                        activeLoans.getOrDefault(publication.getId(), List.of())
                 ))
                 .collect(Collectors.toList());
     }
@@ -49,7 +52,8 @@ public class PublicationController {
         Publication created = publicationService.create(toCreate);
         PublicationDto body = PublicationMapper.toDto(
                 created,
-                publicationService.countActiveLoansForPublication(created.getId())
+                publicationService.countActiveLoansForPublication(created.getId()),
+                publicationService.findActiveLoans(List.of(created.getId())).getOrDefault(created.getId(), List.of())
         );
         return ResponseEntity
                 .created(URI.create("/api/publications/" + body.getId()))

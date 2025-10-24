@@ -1,6 +1,9 @@
-# Angular Frontend (Publications CRUD)
+# Angular Frontend (Publications & Loans)
 
-Das Angular-Frontend greift per Proxy (`/api`) auf das Spring-Boot-Backend zu und stellt eine einfache Verwaltung der Publikationen bereit (Liste, Neu anlegen, Löschen).
+Das Angular-Frontend greift per Proxy (`/api`) auf das Spring-Boot-Backend zu und stellt derzeit folgende Funktionen bereit:
+- Publikationen listen, neu anlegen und löschen (Delete bleibt gesperrt, solange aktive Ausleihen existieren).
+- Ausleihen erstellen (Borrow) inkl. Bestandsprüfung (`stock` vs. `activeLoanCount`).
+- Aktive Ausleihen anzeigen, inklusive Überfälligkeits-Hinweis, und Rückgaben (Return) auslösen.
 
 ## Voraussetzungen
 - Node.js 20+
@@ -20,7 +23,12 @@ npm run build
 ```
 Das Ergebnis liegt anschließend in `dist/library-app`.
 
+## Fehlermeldungen & Hinweise
+- ProblemDetail-Antworten des Backends (z. B. 404/409) werden direkt angezeigt und verhindern generische Fehlermeldungen.
+- Der Ausleihen-Button bleibt deaktiviert, solange kein Ausleiher ausgewählt oder kein Bestand mehr verfügbar ist.
+- Rückgaben markieren aktive Loans als erledigt; Überfälligkeiten werden über ein rotes Badge gekennzeichnet.
+
 ## Weitere Hinweise
 - Tests (`npm test`) verwenden Karma/Jasmine (Chrome Headless).
 - Optionale Debug-Logs in den Services/Komponenten sind auskommentiert und können bei Bedarf aktiviert werden.
-- DELETE-Konflikte (HTTP 409) werden angezeigt, wenn eine Publikation noch aktive Ausleihen besitzt; der Löschbutton ist in der Liste dann deaktiviert.
+- Die Borrower-Liste wird beim Laden abgerufen (`GET /api/borrowers`) und dient als einfache Auswahl für Ausleihen.

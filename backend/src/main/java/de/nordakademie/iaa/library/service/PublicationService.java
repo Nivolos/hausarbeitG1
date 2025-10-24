@@ -1,5 +1,6 @@
 package de.nordakademie.iaa.library.service;
 
+import de.nordakademie.iaa.library.domain.Loan;
 import de.nordakademie.iaa.library.domain.Publication;
 import de.nordakademie.iaa.library.repository.LoanRepository;
 import de.nordakademie.iaa.library.repository.PublicationRepository;
@@ -68,5 +69,15 @@ public class PublicationService {
                         loanRepository::countByPublication_IdAndReturnedAtIsNull,
                         (existing, replacement) -> replacement
                 ));
+    }
+
+    @Transactional(readOnly = true)
+    public Map<Long, List<Loan>> findActiveLoans(Collection<Long> publicationIds) {
+        if (publicationIds == null || publicationIds.isEmpty()) {
+            return Map.of();
+        }
+        return loanRepository.findByPublication_IdInAndReturnedAtIsNull(publicationIds).stream()
+                .filter(loan -> loan.getPublication() != null && loan.getPublication().getId() != null)
+                .collect(Collectors.groupingBy(loan -> loan.getPublication().getId()));
     }
 }
