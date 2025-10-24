@@ -1,0 +1,13 @@
+<header class="app-header">
+  <div class="app-header__brand">{{ title }}</div>
+  <nav class="app-nav">
+    <a routerLink="/publications" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Publikationen</a>
+    <a routerLink="/publications/new" routerLinkActive="active">Neu anlegen</a>
+  </nav>
+</header>
+<main>
+  <router-outlet></router-outlet>
+</main>
+<footer class="app-footer">
+  <span>Frontend ↔ Backend Demo (Angular 18 + Spring Boot)</span>
+</footer>
