@@ -1,0 +1,164 @@
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #1b4b8c;
+  color: #ffffff;
+  border-radius: 0.25rem;
+  text-decoration: none;
+}
+
+.button:hover {
+  background-color: #163c70;
+}
+
+.error {
+  color: #c0392b;
+  margin-bottom: 0.75rem;
+}
+
+.info {
+  color: #1e7e34;
+  margin-bottom: 0.75rem;
+}
+
+.empty {
+  padding: 1rem;
+  border: 1px dashed #b4b4b4;
+  border-radius: 0.5rem;
+  background-color: #ffffff;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e0e0e0;
+  vertical-align: top;
+}
+
+.table th {
+  text-align: left;
+  font-weight: 600;
+  background-color: #f7f9fc;
+}
+
+.title {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.meta div {
+  margin-bottom: 0.25rem;
+}
+
+.stock div {
+  margin-bottom: 0.15rem;
+}
+
+.borrow {
+  min-width: 14rem;
+}
+
+.borrow select {
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
+  padding: 0.35rem;
+}
+
+.borrow .hint {
+  font-size: 0.85rem;
+  color: #7a7a7a;
+}
+
+.loans {
+  min-width: 16rem;
+}
+
+.loan-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.35rem 0;
+  border-bottom: 1px dotted #d1d5db;
+}
+
+.loan-row:last-child {
+  border-bottom: none;
+}
+
+.loan-row small {
+  display: block;
+  color: #555555;
+}
+
+.badge.overdue {
+  display: inline-block;
+  margin-left: 0.35rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.5rem;
+  background-color: #d90429;
+  color: #ffffff;
+  font-size: 0.75rem;
+}
+
+.actions {
+  min-width: 8rem;
+}
+
+button {
+  padding: 0.35rem 0.75rem;
+  border: none;
+  border-radius: 0.25rem;
+  background-color: #1b4b8c;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #163c70;
+}
+
+button[disabled] {
+  background-color: #7a7a7a;
+  cursor: not-allowed;
+}
+
+.borrow button {
+  background-color: #1b4b8c;
+}
+
+.borrow button:hover {
+  background-color: #163c70;
+}
+
+.loans button {
+  background-color: #f39c12;
+  color: #1f2d3d;
+}
+
+.loans button:hover {
+  background-color: #d68910;
+}
+
+.actions button {
+  background-color: #d90429;
+}
+
+.actions button:hover {
+  background-color: #a30320;
+}

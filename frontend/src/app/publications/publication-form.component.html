@@ -1,0 +1,31 @@
+<section>
+  <h1>Publikation anlegen</h1>
+  <form #form="ngForm" (ngSubmit)="save(form)">
+    <label>
+      Titel
+      <input name="title" [(ngModel)]="model.title" required />
+    </label>
+
+    <label>
+      Autor:innen
+      <input name="authors" [(ngModel)]="model.authors" />
+    </label>
+
+    <label>
+      Verlag
+      <input name="publisher" [(ngModel)]="model.publisher" />
+    </label>
+
+    <label>
+      Bestand
+      <input name="stock" type="number" min="0" [(ngModel)]="model.stock" required />
+    </label>
+
+    <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+
+    <div class="actions">
+      <button type="submit" [disabled]="submitting">Speichern</button>
+      <a routerLink="/publications" class="link">Zurück</a>
+    </div>
+  </form>
+</section>
