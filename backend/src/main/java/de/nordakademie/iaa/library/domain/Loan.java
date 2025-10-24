@@ -25,11 +25,16 @@ public class Loan {
     private Borrower borrower;
 
     @Column(nullable = false)
-    private LocalDate issuedAt;
+    private LocalDate issuedAt = LocalDate.now();
 
     @Column(nullable = false)
-    private LocalDate dueAt;
+    private LocalDate dueAt = LocalDate.now().plusDays(14);
 
+//    private LocalDate issuedAt;
+
+//    @Column(nullable = false)
+//    private LocalDate dueAt;
+  
     private LocalDate returnedAt;
 
     public Loan() {
