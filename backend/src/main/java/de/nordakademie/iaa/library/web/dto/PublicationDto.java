@@ -17,16 +17,20 @@ public class PublicationDto {
     @Min(0)
     private int stock;
 
+    @Min(0)
+    private long loanCount;
+
     public PublicationDto() {
         // Jackson
     }
 
-    public PublicationDto(Long id, String title, String authors, String publisher, int stock) {
+    public PublicationDto(Long id, String title, String authors, String publisher, int stock, long loanCount) {
         this.id = id;
         this.title = title;
         this.authors = authors;
         this.publisher = publisher;
         this.stock = stock;
+        this.loanCount = loanCount;
     }
 
     public Long getId() {
@@ -67,5 +71,13 @@ public class PublicationDto {
 
     public void setStock(int stock) {
         this.stock = stock;
+    }
+
+    public long getLoanCount() {
+        return loanCount;
+    }
+
+    public void setLoanCount(long loanCount) {
+        this.loanCount = loanCount;
     }
 }

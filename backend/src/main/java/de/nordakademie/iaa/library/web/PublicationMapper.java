@@ -9,12 +9,17 @@ public final class PublicationMapper {
     }
 
     public static PublicationDto toDto(Publication publication) {
+        return toDto(publication, 0L);
+    }
+
+    public static PublicationDto toDto(Publication publication, long loanCount) {
         return new PublicationDto(
                 publication.getId(),
                 publication.getTitle(),
                 publication.getAuthors(),
                 publication.getPublisher(),
-                publication.getStock()
+                publication.getStock(),
+                loanCount
         );
     }
 

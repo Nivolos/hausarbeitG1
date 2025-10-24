@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Publication } from '../models/publication';
 import { PublicationService } from '../services/publication.service';
 
@@ -48,8 +49,18 @@ export class PublicationListComponent implements OnInit {
     }
     this.publicationService.delete(id).subscribe({
       next: () => this.load(),
-      error: (error) => {
+      error: (error: HttpErrorResponse) => {
         console.error('[PublicationList] delete failed', error);
+        if (error.status === 409) {
+          let detail = 'Löschen nicht möglich: Es existieren Ausleihen für diese Publikation.';
+          if (typeof error.error === 'string' && error.error.trim().length > 0) {
+            detail = error.error;
+          } else if (error.error && (error.error.detail || error.error.message || error.error.title)) {
+            detail = error.error.detail || error.error.message || error.error.title;
+          }
+          this.errorMessage = detail;
+          return;
+        }
         this.errorMessage = 'Löschen fehlgeschlagen.';
       }
     });

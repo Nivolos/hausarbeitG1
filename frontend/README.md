@@ -23,3 +23,4 @@ Das Ergebnis liegt anschließend in `dist/library-app`.
 ## Weitere Hinweise
 - Tests (`npm test`) verwenden Karma/Jasmine (Chrome Headless).
 - Optionale Debug-Logs in den Services/Komponenten sind auskommentiert und können bei Bedarf aktiviert werden.
+- DELETE-Konflikte (HTTP 409) werden angezeigt, wenn eine Publikation noch aktive Ausleihen besitzt; der Löschbutton ist in der Liste dann deaktiviert.

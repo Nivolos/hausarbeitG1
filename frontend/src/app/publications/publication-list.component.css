@@ -40,3 +40,8 @@ button {
 button:hover {
   background-color: #a30320;
 }
+
+button[disabled] {
+  background-color: #7a7a7a;
+  cursor: not-allowed;
+}

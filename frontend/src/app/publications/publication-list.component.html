@@ -14,6 +14,7 @@
         <th>Autor:innen</th>
         <th>Verlag</th>
         <th>Bestand</th>
+        <th>Ausleihen</th>
         <th>Aktionen</th>
       </tr>
     </thead>
@@ -23,8 +24,15 @@
         <td>{{ publication.authors || '—' }}</td>
         <td>{{ publication.publisher || '—' }}</td>
         <td>{{ publication.stock }}</td>
+        <td>{{ publication.loanCount ?? 0 }}</td>
         <td>
-          <button type="button" (click)="delete(publication.id)">Löschen</button>
+          <button
+            type="button"
+            [disabled]="(publication.loanCount ?? 0) > 0"
+            [title]="(publication.loanCount ?? 0) > 0 ? 'Ausleihen vorhanden – bitte erst zurückgeben.' : 'Publikation löschen'"
+            (click)="delete(publication.id)">
+            Löschen
+          </button>
         </td>
       </tr>
     </tbody>

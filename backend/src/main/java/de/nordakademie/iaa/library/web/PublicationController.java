@@ -6,6 +6,7 @@ import de.nordakademie.iaa.library.web.dto.PublicationDto;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,8 +29,17 @@ public class PublicationController {
 
     @GetMapping
     public List<PublicationDto> getAll() {
-        return publicationService.findAll().stream()
-                .map(PublicationMapper::toDto)
+        List<Publication> publications = publicationService.findAll();
+        Map<Long, Long> loanCounts = publicationService.countLoans(
+                publications.stream()
+                        .map(Publication::getId)
+                        .collect(Collectors.toSet())
+        );
+        return publications.stream()
+                .map(publication -> PublicationMapper.toDto(
+                        publication,
+                        loanCounts.getOrDefault(publication.getId(), 0L)
+                ))
                 .collect(Collectors.toList());
     }
 
@@ -37,7 +47,10 @@ public class PublicationController {
     public ResponseEntity<PublicationDto> create(@Valid @RequestBody PublicationDto publicationDto) {
         Publication toCreate = PublicationMapper.toEntity(publicationDto);
         Publication created = publicationService.create(toCreate);
-        PublicationDto body = PublicationMapper.toDto(created);
+        PublicationDto body = PublicationMapper.toDto(
+                created,
+                publicationService.countLoansForPublication(created.getId())
+        );
         return ResponseEntity
                 .created(URI.create("/api/publications/" + body.getId()))
                 .body(body);
