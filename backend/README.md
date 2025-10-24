@@ -13,8 +13,9 @@ Build: mvn -f backend/pom.xml package
 - Seed-Daten: `src/main/resources/data.sql` (H2 In-Memory) für Schnelltests.
 
 ### Löschen & Konflikte (409)
-- Publikationen mit offenen Ausleihen liefern beim DELETE nun einen **409 Conflict** samt ProblemDetail (`publicationId`, `detail`).
-- Frontend zeigt diese Rückmeldung an; für neue Publikationen ohne Loans bleibt `204 No Content` unverändert.
+- Publikationen mit **aktiven** Ausleihen liefern beim DELETE einen **409 Conflict** samt ProblemDetail (`publicationId`, `detail`).
+- Bereits vollständig zurückgegebene Ausleihen blockieren das Löschen nicht mehr.
+- Frontend zeigt diese Rückmeldung an; für neue Publikationen ohne aktive Loans bleibt `204 No Content` unverändert.
 
 ### Quick Checks
 ```bash

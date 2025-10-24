@@ -8,7 +8,7 @@ class PublicationDeleteConflictTest {
 //    private MockMvc mockMvc;
 //
 //    @Test
-//    void deletingPublicationWithLoanReturnsConflict() throws Exception {
+//    void deletingPublicationWithActiveLoanReturnsConflict() throws Exception {
 //        mockMvc.perform(delete("/api/publications/1001"))
 //                .andExpect(status().isConflict());
 //    }

@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,22 +36,28 @@ public class PublicationService {
     }
 
     public void delete(Long id) {
-        if (loanRepository.existsByPublication_Id(id)) {
+        if (loanRepository.existsByPublication_IdAndReturnedAtIsNull(id)) {
             throw new PublicationDeletionConflictException(id);
         }
-        publicationRepository.deleteById(id);
+        try {
+            publicationRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException ex) {
+            throw new PublicationNotFoundException(id);
+        } catch (DataIntegrityViolationException ex) {
+            throw new PublicationDeletionConflictException(id);
+        }
     }
 
     @Transactional(readOnly = true)
-    public long countLoansForPublication(Long publicationId) {
+    public long countActiveLoansForPublication(Long publicationId) {
         if (publicationId == null) {
             return 0L;
         }
-        return loanRepository.countByPublication_Id(publicationId);
+        return loanRepository.countByPublication_IdAndReturnedAtIsNull(publicationId);
     }
 
     @Transactional(readOnly = true)
-    public Map<Long, Long> countLoans(Collection<Long> publicationIds) {
+    public Map<Long, Long> countActiveLoans(Collection<Long> publicationIds) {
         if (publicationIds == null || publicationIds.isEmpty()) {
             return Map.of();
         }
@@ -57,7 +65,7 @@ public class PublicationService {
                 .filter(Objects::nonNull)
                 .collect(Collectors.toMap(
                         id -> id,
-                        loanRepository::countByPublication_Id,
+                        loanRepository::countByPublication_IdAndReturnedAtIsNull,
                         (existing, replacement) -> replacement
                 ));
     }

@@ -52,7 +52,7 @@ export class PublicationListComponent implements OnInit {
       error: (error: HttpErrorResponse) => {
         console.error('[PublicationList] delete failed', error);
         if (error.status === 409) {
-          let detail = 'Löschen nicht möglich: Es existieren Ausleihen für diese Publikation.';
+          let detail = 'Löschen nicht möglich: Es existieren aktive Ausleihen für diese Publikation.';
           if (typeof error.error === 'string' && error.error.trim().length > 0) {
             detail = error.error;
           } else if (error.error && (error.error.detail || error.error.message || error.error.title)) {

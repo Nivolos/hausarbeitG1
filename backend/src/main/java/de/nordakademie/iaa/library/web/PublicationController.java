@@ -30,7 +30,7 @@ public class PublicationController {
     @GetMapping
     public List<PublicationDto> getAll() {
         List<Publication> publications = publicationService.findAll();
-        Map<Long, Long> loanCounts = publicationService.countLoans(
+        Map<Long, Long> loanCounts = publicationService.countActiveLoans(
                 publications.stream()
                         .map(Publication::getId)
                         .collect(Collectors.toSet())
@@ -49,7 +49,7 @@ public class PublicationController {
         Publication created = publicationService.create(toCreate);
         PublicationDto body = PublicationMapper.toDto(
                 created,
-                publicationService.countLoansForPublication(created.getId())
+                publicationService.countActiveLoansForPublication(created.getId())
         );
         return ResponseEntity
                 .created(URI.create("/api/publications/" + body.getId()))

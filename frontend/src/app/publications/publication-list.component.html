@@ -24,12 +24,12 @@
         <td>{{ publication.authors || '—' }}</td>
         <td>{{ publication.publisher || '—' }}</td>
         <td>{{ publication.stock }}</td>
-        <td>{{ publication.loanCount ?? 0 }}</td>
+        <td>{{ publication.activeLoanCount ?? 0 }}</td>
         <td>
           <button
             type="button"
-            [disabled]="(publication.loanCount ?? 0) > 0"
-            [title]="(publication.loanCount ?? 0) > 0 ? 'Ausleihen vorhanden – bitte erst zurückgeben.' : 'Publikation löschen'"
+            [disabled]="(publication.activeLoanCount ?? 0) > 0"
+            [title]="(publication.activeLoanCount ?? 0) > 0 ? 'Aktive Ausleihen vorhanden – bitte erst zurückgeben.' : 'Publikation löschen'"
             (click)="delete(publication.id)">
             Löschen
           </button>

@@ -12,14 +12,14 @@ public final class PublicationMapper {
         return toDto(publication, 0L);
     }
 
-    public static PublicationDto toDto(Publication publication, long loanCount) {
+    public static PublicationDto toDto(Publication publication, long activeLoanCount) {
         return new PublicationDto(
                 publication.getId(),
                 publication.getTitle(),
                 publication.getAuthors(),
                 publication.getPublisher(),
                 publication.getStock(),
-                loanCount
+                activeLoanCount
         );
     }
 

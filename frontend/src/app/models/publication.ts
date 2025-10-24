@@ -4,5 +4,5 @@ export interface Publication {
   authors?: string;
   publisher?: string;
   stock: number;
-  loanCount?: number;
+  activeLoanCount?: number;
 }

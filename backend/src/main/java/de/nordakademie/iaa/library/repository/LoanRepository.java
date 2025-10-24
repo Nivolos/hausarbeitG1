@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface LoanRepository extends JpaRepository<Loan, Long> {
 
-    boolean existsByPublication_Id(Long publicationId);
+    boolean existsByPublication_IdAndReturnedAtIsNull(Long publicationId);
 
-    long countByPublication_Id(Long publicationId);
+    long countByPublication_IdAndReturnedAtIsNull(Long publicationId);
 }

@@ -18,19 +18,19 @@ public class PublicationDto {
     private int stock;
 
     @Min(0)
-    private long loanCount;
+    private long activeLoanCount;
 
     public PublicationDto() {
         // Jackson
     }
 
-    public PublicationDto(Long id, String title, String authors, String publisher, int stock, long loanCount) {
+    public PublicationDto(Long id, String title, String authors, String publisher, int stock, long activeLoanCount) {
         this.id = id;
         this.title = title;
         this.authors = authors;
         this.publisher = publisher;
         this.stock = stock;
-        this.loanCount = loanCount;
+        this.activeLoanCount = activeLoanCount;
     }
 
     public Long getId() {
@@ -73,11 +73,11 @@ public class PublicationDto {
         this.stock = stock;
     }
 
-    public long getLoanCount() {
-        return loanCount;
+    public long getActiveLoanCount() {
+        return activeLoanCount;
     }
 
-    public void setLoanCount(long loanCount) {
-        this.loanCount = loanCount;
+    public void setActiveLoanCount(long activeLoanCount) {
+        this.activeLoanCount = activeLoanCount;
     }
 }
