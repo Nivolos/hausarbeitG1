@@ -1,34 +1,41 @@
 # Angular Frontend (Publications & Loans)
 
-Das Angular-Frontend greift per Proxy (`/api`) auf das Spring-Boot-Backend zu und stellt derzeit folgende Funktionen bereit:
-- Publikationen listen, neu anlegen und löschen (Delete bleibt gesperrt, solange aktive Ausleihen existieren).
-- Ausleihen erstellen (Borrow) inkl. Bestandsprüfung (`stock` vs. `activeLoanCount`).
-- Aktive Ausleihen anzeigen, inklusive Überfälligkeits-Hinweis, und Rückgaben (Return) auslösen.
+Das Angular-Frontend (Standalone, Angular 18) konsumiert das Spring-Boot-Backend über einen Proxy auf `/api`.
+
+## Features
+- Publikationen listen, anlegen und löschen (Delete gesperrt, solange `activeLoanCount > 0`).
+- Borrow-Dialog mit Borrower-Auswahl und Bestandsprüfung (`stock > activeLoanCount`).
+- Aktive Ausleihen inkl. Rückgabe-Aktion; Überfällige Loans werden visuell markiert.
+- Fehlermeldungen setzen auf ProblemDetails (z. B. 404, 409, 422) und zeigen konkrete Hinweise statt generischer Alerts.
 
 ## Voraussetzungen
 - Node.js 20+
 - npm 10+
-- Angular CLI (`npm install -g @angular/cli`) – optional, lokale `node_modules` liegen nicht im Repo.
+- Angular CLI optional (`npm install -g @angular/cli`), lokale `node_modules` werden via `npm install` erzeugt.
 
 ## Lokale Entwicklung
 ```bash
+cd frontend
 npm install
 npm start
 ```
-Der Dev-Server läuft anschließend unter http://localhost:4200 und leitet API-Aufrufe an http://localhost:8080 weiter (`proxy.conf.json`).
+- Dev-Server unter http://localhost:4200.
+- Proxy (`proxy.conf.json`) leitet `/api` nach http://localhost:8080 weiter.
 
-## Build
+## Build & Tests
 ```bash
-npm run build
+npm run build        # erzeugt dist/library-app
+npm test             # Karma/Jasmine (Chrome Headless)
 ```
-Das Ergebnis liegt anschließend in `dist/library-app`.
+- Für CI existiert ein Workflow, der `npm ci && npm run build` versucht (Soft-Fail bei Offline-Registry).
 
-## Fehlermeldungen & Hinweise
-- ProblemDetail-Antworten des Backends (z. B. 404/409) werden direkt angezeigt und verhindern generische Fehlermeldungen.
-- Der Ausleihen-Button bleibt deaktiviert, solange kein Ausleiher ausgewählt oder kein Bestand mehr verfügbar ist.
-- Rückgaben markieren aktive Loans als erledigt; Überfälligkeiten werden über ein rotes Badge gekennzeichnet.
+## Fehlerbilder & UX-Hinweise
+- 409 Conflict → „Bestand erschöpft“ bzw. „Loan bereits zurückgegeben“.
+- 404 Not Found → Ressource nicht mehr vorhanden (z. B. paralleles Löschen).
+- 422 Unprocessable Entity → Formular validieren (Pflichtfelder, positive Bestände).
+- Borrow-Button bleibt deaktiviert, solange kein Borrower gewählt oder kein Bestand verfügbar ist.
 
-## Weitere Hinweise
-- Tests (`npm test`) verwenden Karma/Jasmine (Chrome Headless).
-- Optionale Debug-Logs in den Services/Komponenten sind auskommentiert und können bei Bedarf aktiviert werden.
-- Die Borrower-Liste wird beim Laden abgerufen (`GET /api/borrowers`) und dient als einfache Auswahl für Ausleihen.
+## Weiterführend
+- Backend-Dokumentation: [`../backend/README.md`](../backend/README.md)
+- Installationshinweise: [`../docs/INSTALL.md`](../docs/INSTALL.md)
+- Deploy-Anleitung: [`../docs/DEPLOY.md`](../docs/DEPLOY.md)

@@ -1,34 +1,51 @@
-# Backend (Spring Boot WAR) — Skeleton
-Dieses Verzeichnis enthält das künftige Spring-Boot-Backend (WAR für externen Tomcat).
-Status: PR1 legt nur das Skelett an. Keine Code-Artefakte, keine POMs.
+# Backend (Spring Boot WAR)
+Dieses Modul liefert das moderne REST-Backend der Bibliotheksverwaltung. Es wird als WAR verpackt und in einen externen Tomcat 10.1+ deployt.
 
-Zielstände (später): Java ≥ 18 (empf. 21 LTS), Spring Boot 3.3.x, Hibernate 6.x.
-
-Initiales Spring Boot 3.3.x WAR Skeleton mit GET /api/publications.
-Build: mvn -f backend/pom.xml package
-
-## Aktueller Stand (PR6)
-- Domänenmodelle: Publication, Borrower, Loan (JPA/Hibernate) inkl. Ausleih-/Rückgaberegeln.
-- Publication-REST: GET/POST/DELETE unter `/api/publications` mit DTO-Mapping und aktiven Ausleihen (inkl. Überfälligkeitsstatus).
-- Loan-REST: `POST /api/loans` (Ausleihen) + `POST /api/loans/{id}/return` (Rückgabe) mit Bestands-/Konfliktprüfung.
-- Borrower-REST: `GET /api/borrowers` für einfache Auswahl im Frontend.
-- Seed-Daten: `src/main/resources/data.sql` (H2 In-Memory) liefert mehrere Publikationen, Borrower sowie aktive & abgeschlossene Loans.
-
-### Löschen & Konflikte (409)
-- Publikationen mit **aktiven** Ausleihen liefern beim DELETE einen **409 Conflict** samt ProblemDetail (`publicationId`, `detail`).
-- Bereits vollständig zurückgegebene Ausleihen blockieren das Löschen nicht mehr.
-- Frontend zeigt diese Rückmeldung an; für neue Publikationen ohne aktive Loans bleibt `204 No Content` unverändert.
-
-### Borrow & Return (ProblemDetails)
-- `POST /api/loans` prüft Bestand (`stock > activeLoanCount`) und liefert bei Engpässen `409 Conflict` mit sprechender Detailnachricht.
-- Rückgabe versucht `POST /api/loans/{id}/return`; doppelte Rückgaben erzeugen `409 Conflict` (ProblemDetail enthält `loanId`).
-- Alle 404/409-Fälle sind als ProblemDetail umgesetzt, um einheitliche Fehlerbilder zwischen Backend und Angular bereitzustellen.
-
-### Quick Checks
+## Build & Laufzeit
 ```bash
-mvn -f backend/pom.xml package -DskipTests
+mvn -f backend/pom.xml spring-boot:run   # Dev-Start (H2)
+mvn -f backend/pom.xml -DskipTests package   # WAR erzeugen
+```
+- Java 21, Spring Boot 3.3.x, Hibernate 6.x.
+- `spring-boot-starter-tomcat` ist als *provided* deklariert – WAR läuft im externen Container.
+
+## Domäne & Use-Cases
+- **Publication** – CRUD, aktiver Bestand (`stock`) wird durch aktive Loans (`returnedAt IS NULL`) reduziert.
+- **Borrower** – Ausleiher-Verwaltung (Basisdaten für Auswahl).
+- **Loan** – Ausleihen & Rückgaben inkl. Bestandsprüfung.
+
+## REST-Endpunkte (Auszug)
+| Endpoint | Methode | Beschreibung |
+| --- | --- | --- |
+| `/api/publications` | GET/POST/DELETE | Listen, anlegen, löschen (Delete blockt bei aktiven Loans). |
+| `/api/borrowers` | GET | Borrower-Auswahl für Frontend. |
+| `/api/loans` | POST | Ausleihen (`publicationId`, `borrowerId`). |
+| `/api/loans/{id}/return` | POST | Rückgabe (setzt `returnedAt`). |
+
+## Ausleihlogik & Konfiguration
+- Standard-Leihdauer: **14 Tage** (`loan.period.days`, überschreibbar via Property oder `--loan.period.days=<tage>`).
+- Borrow prüft `stock > activeLoanCount`; liefert bei Engpässen `409 Conflict` (ProblemDetail mit `publicationId`).
+- Rückgabe erlaubt nur aktive Loans – doppelte Rückgabe → `409 Conflict` (`loanId`).
+- Delete einer Publikation fängt Race Conditions über `DataIntegrityViolationException` ab und antwortet ebenfalls mit 409.
+
+## ProblemDetails
+Alle relevanten Fehlerfälle liefern strukturierte Antworten (`type`, `title`, `status`, `detail`, optionale IDs). Beispiele:
+- 404 – Ressource nicht gefunden.
+- 409 – aktiver Bestand belegt oder Loan bereits zurückgegeben.
+- 422 – Bean-Validation verletzt (z. B. leerer Titel, negativer Bestand).
+
+## Seed-Daten
+`src/main/resources/data.sql` legt mehrere Publikationen, Borrower und gemischte Loans an, sodass Ausleihen/Rückgaben sofort getestet werden können (`curl`-Beispiele siehe unten).
+
+## Quick Checks
+```bash
 curl -s http://localhost:8080/api/publications | jq
 curl -s -X POST http://localhost:8080/api/loans \
   -H "Content-Type: application/json" \
   -d '{"publicationId":1003,"borrowerId":2002}'
+curl -s -X POST http://localhost:8080/api/loans/3001/return
 ```
+
+## Optionale Diagnose
+- In `src/test/java` liegen kommentierte MockMvc-Smoke-Tests (`LoanControllerSmokeTest`), die bei aktiven Loans 409 erwarten.
+- Auskommentierte Log-Levels (`logging.level.org.hibernate.SQL`, `...jdbc.bind`) sind in `application.properties` dokumentiert und können bei Bedarf aktiviert werden.
