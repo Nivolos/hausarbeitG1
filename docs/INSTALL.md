@@ -26,6 +26,7 @@ mvn -f backend/pom.xml spring-boot:run
 ```
 cd frontend
 npm ci
+npm install
 npm start
 ```
 - Dev-Server auf http://localhost:4200, Proxy routet `/api` → `http://localhost:8080`.
