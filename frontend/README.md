@@ -17,6 +17,7 @@ Das Angular-Frontend (Standalone, Angular 18) konsumiert das Spring-Boot-Backend
 ```bash
 cd frontend
 npm ci
+npm install
 npm start
 ```
 - Dev-Server unter http://localhost:4200.
