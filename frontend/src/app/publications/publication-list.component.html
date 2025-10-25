@@ -1,0 +1,96 @@
+<section>
+  <div class="section-header">
+    <h1>Publikationen</h1>
+    <a class="button" routerLink="/publications/new">Neue Publikation</a>
+  </div>
+
+  <p *ngIf="loading">Laden…</p>
+  <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+  <p *ngIf="!loading && infoMessage" class="info">{{ infoMessage }}</p>
+
+  <table *ngIf="!loading && publications.length" class="table">
+    <thead>
+      <tr>
+        <th>Titel</th>
+        <th>Details</th>
+        <th>Bestand</th>
+        <th>Ausleihe</th>
+        <th>Aktive Ausleihen</th>
+        <th>Aktionen</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let publication of publications">
+        <td>
+          <div class="title">{{ publication.title }}</div>
+        </td>
+        <td class="meta">
+          <div><strong>Autor:innen:</strong> {{ publication.authors || '—' }}</div>
+          <div><strong>Verlag:</strong> {{ publication.publisher || '—' }}</div>
+        </td>
+        <td class="stock">
+          <div>Gesamt: {{ publication.stock }}</div>
+          <div>Aktiv: {{ publication.activeLoanCount ?? 0 }}</div>
+          <div>Verfügbar: {{ availableCount(publication) }}</div>
+        </td>
+        <td class="borrow">
+          <label>
+            Ausleiher:
+            <select
+              [ngModel]="selectedBorrowers[publication.id!]"
+              (ngModelChange)="selectedBorrowers[publication.id!] = $event">
+              <option [ngValue]="undefined">Bitte wählen…</option>
+              <option *ngFor="let borrower of borrowers" [ngValue]="borrower.id">
+                {{ borrowerName(borrower) }}
+              </option>
+            </select>
+          </label>
+          <button
+            type="button"
+            (click)="borrow(publication)"
+            [disabled]="!canBorrow(publication)">
+            Ausleihen
+          </button>
+          <div class="hint" *ngIf="availableCount(publication) === 0">
+            Kein Bestand verfügbar.
+          </div>
+        </td>
+        <td class="loans">
+          <div *ngIf="publication.activeLoans?.length; else noLoans">
+            <div class="loan-row" *ngFor="let loan of publication.activeLoans">
+              <div>
+                <strong>{{ loan.borrowerName || 'Unbekannt' }}</strong>
+                <small>
+                  fällig am {{ loan.dueAt | date: 'shortDate' }}
+                  <span *ngIf="loanIsOverdue(loan)" class="badge overdue">Überfällig</span>
+                </small>
+              </div>
+              <button
+                type="button"
+                (click)="returnLoan(loan)"
+                [disabled]="isReturnDisabled(loan)">
+                Rückgabe
+              </button>
+            </div>
+          </div>
+          <ng-template #noLoans>
+            <span class="empty">Keine aktiven Ausleihen.</span>
+          </ng-template>
+        </td>
+        <td class="actions">
+          <button
+            type="button"
+            [disabled]="(publication.activeLoanCount ?? 0) > 0"
+            [title]="(publication.activeLoanCount ?? 0) > 0 ? 'Aktive Ausleihen vorhanden – bitte erst zurückgeben.' : 'Publikation löschen'"
+            (click)="delete(publication.id)">
+            Löschen
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!loading && !publications.length" class="empty">
+    Noch keine Publikationen vorhanden.
+  </div>
+</section>
