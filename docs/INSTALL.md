@@ -2,7 +2,7 @@
 
 ## Ziele
 - Modernisierte Module (Spring Boot + Angular) build- und lauffähig halten.
-- Legacy-Struts bleibt als Referenz unter `legacy/struts-app`, wird aber nicht mehr automatisch gebaut.
+- Legacy-Struts liegt lediglich als Referenz unter `legacy/struts-app` und ist kein Bestandteil der Lösung.
 
 ## Voraussetzungen (Dev)
 - Java 21 (oder ≥ 18), Maven, Node 20 (später Angular CLI).
@@ -31,12 +31,6 @@ npm start
 ```
 - Dev-Server auf http://localhost:4200, Proxy routet `/api` → `http://localhost:8080`.
 - Falls der Backend-Port wechselt, `proxy.conf.json` anpassen.
-
-### Optional: Legacy-Referenz bauen
-```
-mvn -f legacy/struts-app/pom.xml -q validate
-```
-- Nur nötig, wenn die historische Anwendung nachvollzogen werden soll.
 
 ## Troubleshooting
 | Problem | Ursache | Lösung |

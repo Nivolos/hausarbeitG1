@@ -19,6 +19,5 @@ Diese Modernisierung folgt den Leitplanken aus `AGENTS.md` und `docs/Pruefungsau
 ## Workflow-Erinnerung
 1. `mvn -q validate` im Root ausführen (Aggregator → `/backend`).
 2. Module separat testen (`mvn -f backend/pom.xml spring-boot:run`, `npm start`).
-3. Optional: Legacy nur bei Bedarf mit `mvn -f legacy/struts-app/pom.xml validate` prüfen.
-4. Checkliste aus `.github/pull_request_template.md` verwenden.
-5. CI-Workflow (`.github/workflows/ci.yml`) prüft Maven-Validate und versucht den Angular-Build (Soft-Fail bei Offline-Registry).
+3. Checkliste aus `.github/pull_request_template.md` verwenden.
+4. CI-Workflow (`.github/workflows/ci.yml`) prüft Maven-Validate und versucht den Angular-Build (Soft-Fail bei Offline-Registry).

@@ -1,10 +1,9 @@
 # Bibliotheksverwaltung – Modernisierte Module
 
-Dieses Repository enthält die modernisierten Module für die Prüfungsaufgabe. Die historische Struts/JSP-Anwendung ist nur noch als Referenz unter `legacy/struts-app` abgelegt und nimmt nicht mehr am Build teil.
+Dieses Repository enthält ausschließlich die modernen Module der Bibliotheksverwaltung (Angular + Spring Boot + Hibernate). Die historische Struts/JSP-Anwendung liegt zwar weiterhin unter `legacy/struts-app`, gehört aber **nicht** mehr zur lauffähigen Lösung und wird weder gebaut noch dokumentiert.
 
 - `/backend` – Spring Boot 3.3.x als WAR (Tomcat 10.1+), Java 21, Hibernate 6, REST unter `/api/**`.
 - `/frontend` – Angular 18 Standalone-App mit Proxy auf `/api`.
-- `/legacy/struts-app` – unveränderte Struts/JSP-Anwendung (nur Referenz, kein aktiver Build).
 
 ## Schnellstart
 | Schritt | Kommando | Hinweis |
@@ -12,8 +11,6 @@ Dieses Repository enthält die modernisierten Module für die Prüfungsaufgabe. 
 | Backend prüfen | `mvn -q validate` | Root-POM (Aggregator) baut das Spring-Boot-Modul. |
 | Backend starten | `mvn -f backend/pom.xml spring-boot:run` | H2-Seed liefert Beispiel-Publikationen, Borrower und Loans. |
 | Frontend starten | `cd frontend && npm ci && npm start` | Dev-Server auf http://localhost:4200, Proxy → http://localhost:8080. |
-| Optional: Legacy-Build inspizieren | `mvn -f legacy/struts-app/pom.xml -q validate` | Läuft separat, beeinflusst die modernen Module nicht. |
-
 Weitere Details zur lokalen Einrichtung finden sich in [`docs/INSTALL.md`](docs/INSTALL.md), zum Tomcat-Deploy in [`docs/DEPLOY.md`](docs/DEPLOY.md).
 
 ## Ausleihlogik & Konfiguration
