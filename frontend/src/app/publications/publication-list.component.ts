@@ -91,26 +91,27 @@ export class PublicationListComponent implements OnInit {
   }
 
   borrow(publication: Publication): void {
-    if (!publication.id) {
+    const publicationId = publication.id;
+    if (publicationId == null) {
       return;
     }
-    const borrowerId = this.selectedBorrowers[publication.id];
+    const borrowerId = this.selectedBorrowers[publicationId];
     if (!borrowerId) {
       this.errorMessage = 'Bitte zuerst einen Ausleiher auswählen.';
       return;
     }
-    this.processingPublicationIds.add(publication.id);
+    this.processingPublicationIds.add(publicationId);
     this.errorMessage = '';
     this.infoMessage = '';
-    this.loanService.borrow(publication.id, borrowerId).subscribe({
+    this.loanService.borrow(publicationId, borrowerId).subscribe({
       next: () => {
         this.infoMessage = 'Ausleihe gespeichert.';
-        this.processingPublicationIds.delete(publication.id);
+        this.processingPublicationIds.delete(publicationId);
         this.loadPublications();
       },
       error: (error: HttpErrorResponse) => {
         console.error('[PublicationList] borrow failed', error);
-        this.processingPublicationIds.delete(publication.id);
+        this.processingPublicationIds.delete(publicationId);
         if (error.status === 409) {
           this.errorMessage = this.resolveProblemDetail(error, 'Ausleihe nicht möglich: Kein Bestand verfügbar.');
           return;
@@ -125,21 +126,22 @@ export class PublicationListComponent implements OnInit {
   }
 
   returnLoan(loan: Loan): void {
-    if (!loan?.id) {
+    const loanId = loan?.id;
+    if (loanId == null) {
       return;
     }
-    this.processingLoanIds.add(loan.id);
+    this.processingLoanIds.add(loanId);
     this.errorMessage = '';
     this.infoMessage = '';
-    this.loanService.returnLoan(loan.id).subscribe({
+    this.loanService.returnLoan(loanId).subscribe({
       next: () => {
         this.infoMessage = 'Ausleihe wurde zurückgegeben.';
-        this.processingLoanIds.delete(loan.id);
+        this.processingLoanIds.delete(loanId);
         this.loadPublications();
       },
       error: (error: HttpErrorResponse) => {
         console.error('[PublicationList] return failed', error);
-        this.processingLoanIds.delete(loan.id);
+        this.processingLoanIds.delete(loanId);
         if (error.status === 409) {
           this.errorMessage = this.resolveProblemDetail(error, 'Rückgabe nicht möglich.');
           return;
@@ -154,18 +156,20 @@ export class PublicationListComponent implements OnInit {
   }
 
   canBorrow(publication: Publication): boolean {
-    if (!publication?.id) {
+    const publicationId = publication?.id;
+    if (publicationId == null) {
       return false;
     }
-    if (this.processingPublicationIds.has(publication.id)) {
+    if (this.processingPublicationIds.has(publicationId)) {
       return false;
     }
-    const borrowerId = this.selectedBorrowers[publication.id];
+    const borrowerId = this.selectedBorrowers[publicationId];
     return availableCopies(publication) > 0 && !!borrowerId;
   }
 
   isReturnDisabled(loan: Loan | undefined): boolean {
-    return !loan || this.processingLoanIds.has(loan.id);
+    const loanId = loan?.id;
+    return loanId == null || this.processingLoanIds.has(loanId);
   }
 
   borrowerName(borrower: Borrower): string {
